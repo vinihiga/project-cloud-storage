@@ -8,7 +8,7 @@ import (
 
 func main() {
 	var server *gin.Engine = gin.Default()
-	server.MaxMultipartMemory = 8 << 20
+	server.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	server.POST("/upload", func(context *gin.Context) {
 		file, _ := context.FormFile("file")
@@ -16,9 +16,10 @@ func main() {
 		context.JSON(http.StatusOK, gin.H{})
 	})
 
-	server.GET("/download", func(context *gin.Context) {
-		context.JSON(http.StatusOK, gin.H{})
+	server.GET("/download/:filename", func(context *gin.Context) {
+		fileName := context.Param("filename")
+		context.File("../tests/" + fileName)
 	})
 
-	server.RunTLS(":8080", "server.pem", "server.key")
+	server.RunTLS("localhost:8080", "server.pem", "server.key")
 }
