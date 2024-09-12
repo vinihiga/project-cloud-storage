@@ -21,5 +21,5 @@ func main() {
 		context.File("../tests/" + fileName)
 	})
 
-	server.RunTLS("localhost:8080", "server.pem", "server.key")
+	server.RunTLS(":8080", "server.pem", "server.key")
 }
